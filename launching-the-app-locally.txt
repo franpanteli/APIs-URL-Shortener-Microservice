@@ -1,0 +1,29 @@
+Running the project locally:
+
+1. git clone https://github.com/franpanteli/APIs-URL-Shortener-Microservice-Project.git
+
+2. cd into this directory 
+
+3. npm install
+	-> This installs the npm dependencies 
+
+3. node server.js 
+	-> This runs the server - after this is run, the server should be listening to the 3000 port (or its backup port)
+
+4. http://localhost:8080 
+	-> Go to this URL in the browser (or to the relevant one, depending on the port being used)
+
+First time: 
+	-> cd into the repository 
+	-> npm install 
+	-> node server.js
+	-> http://localhost:8080 in the browser 
+
+Every other time:
+	-> cd into the repository 
+	-> node server.js
+	-> In the browser 
+		-> http://localhost:8080 <- this serves the index.html file 
+
+
+

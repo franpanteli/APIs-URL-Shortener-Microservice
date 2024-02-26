@@ -7,82 +7,58 @@ const urlParse = require('url');
 const app = express();
 
 // Basic Configuration
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 app.use(cors());
-
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(bodyParser.json());
 
 app.use('/public', express.static(`${process.cwd()}/public`));
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+// In-memory storage for URL mappings
+const urlMappings = new Map();
+let urlCounter = 1;
 
-const Schema = mongoose.Schema;
-
-const urlSchema = new Schema({
-  original_url: { type: String, required: true },
-  short_url: { type: Number, required: true },
-});
-
-const UrlShort = mongoose.model("UrlShort", urlSchema);
-
-app.get("/api/shorturl/:id", async function(req, res) {
+app.get('/api/shorturl/:id', function (req, res) {
   const { id } = req.params;
 
-  const entryResult = await UrlShort.findOne({ short_url: id });
+  const entryResult = urlMappings.get(Number(id));
 
   if (entryResult) {
-    res.redirect(entryResult.original_url);
-  }
-  else {
+    res.redirect(entryResult);
+  } else {
     res.json({ error: 'invalid id' });
   }
-
 });
 
-app.post("/api/shorturl", async function(req, res) {
+app.post('/api/shorturl', function (req, res) {
   const { url } = req.body;
 
   // Check if url is valid
-  dns.lookup(urlParse.parse(url).hostname, async (err, ip) => {
+  dns.lookup(urlParse.parse(url).hostname, (err, ip) => {
     if (!ip) {
-      console.log("error");
+      console.log('error');
       res.json({ error: 'invalid url' });
     } else {
-      // Find entry with the given url
-      const urlInfo = await UrlShort.findOne({ original_url: url });
-
       // If the entry is not yet in database
-      if (!urlInfo) {
-        // Find the max shortUrl
-        const urlMaxColl = await UrlShort.findOne().sort({ short_url: -1 }).limit(1);
-
-        // Set the new max shortUrl for the given url
-        let urlMax;
-        if (urlMaxColl) {
-          urlMax = urlMaxColl.short_url + 1
-        } else {
-          urlMax = 1;
-        }
-
-        // Create entry with the given url
-        await UrlShort.create({ original_url: url, short_url: urlMax });
+      if (!urlMappings.has(url)) {
+        // Set the new shortUrl for the given url
+        const shortUrl = urlCounter;
+        urlMappings.set(shortUrl, url);
+        urlCounter++;
       }
 
-      const entryResult = await UrlShort.findOne({ original_url: url });
+      const entryResult = Array.from(urlMappings.entries()).find(([, value]) => value === url);
 
-      res.json({ original_url: entryResult.original_url, short_url: entryResult.short_url });
+      res.json({ original_url: entryResult[1], short_url: entryResult[0] });
     }
   });
 });
 
-app.listen(port, function() {
+app.listen(port, function () {
   console.log(`Listening on port ${port}.`);
 });
