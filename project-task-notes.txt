@@ -1,5 +1,18 @@
 These are my notes on the project task page. This project is called "URL Shortener Microservice." The URL for the page which these notes are on is https://www.freecodecamp.org/learn/back-end-development-and-apis/back-end-development-and-apis-projects/url-shortener-microservice
 
-Type the notes here:
-	-> 
+	The project we are building:
+		-> We are building a full stack JavaScript app
+		-> We want it to be functionally similar to this one -> https://url-shortener-microservice.freecodecamp.rocks
+		-> Use body parsing middleware to handle the POST requests 
+		-> Use dns.lookup(host, cb) to verify a submitted URL 
+			-> dns is a core module 
+			-> This is for handling POST requests 
+			-> We want to check that the URL we are working with is actually a URL 
+
+	Methods to create the project:
+		-> Clone their GitHub starter code and complete the project locally 
+		-> You can also use their Gitpod starter project 
+		-> The final option is to use a site builder 
+			-> They don't specify which site builder you would otherwise use 
+			-> Include all of the files from the project GitHub repository when building the site 
 
