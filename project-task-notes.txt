@@ -1,0 +1,5 @@
+These are my notes on the project task page. This project is called "URL Shortener Microservice." The URL for the page which these notes are on is https://www.freecodecamp.org/learn/back-end-development-and-apis/back-end-development-and-apis-projects/url-shortener-microservice
+
+Type the notes here:
+	-> 
+
