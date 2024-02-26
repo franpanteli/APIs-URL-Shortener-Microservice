@@ -15,4 +15,3 @@ These are my notes on the project task page. This project is called "URL Shorten
 		-> The final option is to use a site builder 
 			-> They don't specify which site builder you would otherwise use 
 			-> Include all of the files from the project GitHub repository when building the site 
-
