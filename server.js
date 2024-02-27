@@ -203,7 +203,6 @@ app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-// In-memory storage for URL mappings
 const urlMappings = new Map();
 let urlCounter = 1;
 
