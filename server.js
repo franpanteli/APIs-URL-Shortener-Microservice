@@ -154,25 +154,50 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/public', express.static(`${process.cwd()}/public`));
 
+/*
+	There are two uses of the .get method in this block: 
+	
+		To serve an HTML file:
+			-> The first use of the .get method in this block is to send (serve) the project index.html file from the server to the 
+        client 
+			-> `app` is the variable which stores the instance of the Express application for the project
+			-> The client makes a GET request to the server at the path '/' (the root path) <- we are route handling this request 
+			-> This triggers a callback function, which is the second argument of the get method here 
+			-> The function which is executed is sendFile <- we are sending back the HTML file to the client 
+				-> We are also telling the client where that HTML file is located on the server (this is its argument)
+				-> process.cwd <- this is the current working directory in the Node.js process which we use to do this
+			-> This serves the main HTML file when the users access the root path  
 
+		Setting up URL mapping:
+			-> This block defines two standalone variables, `urlMappings` and `urlCounter`
+			-> For the first variable, we are using the Map() function 
+				-> This is so that we can store the URLs entered into the microservice 
+				-> There can be multiple of these URLs, and we are in effect counting them / giving them indices 
+				-> These keys allow us to link longer URLs to their shortened versions 
+			-> The second variable initialises the counter of the keys 
+				-> The URLs which are entered into the microservice will start from 1 
 
+		GET requests to the short URL directory:
+			-> If the client makes a GET request to the path which is included as an argument of this request, then it runs the 
+          callback function which is its second argument 
+				-> The URL to this path has :id <- this is a parameter in the URL
+				-> The value of this is set as the first variable (constant) in the function -> by running the .params method on 
+            the requested object 
+				-> The second variable we set stores the non-shortened URL <- it gets this from using the urlMappings map  
 
+			-> The if block in this callback function:
+				-> Entry result is the variable which stores the non-shortened URL 
+				-> This is a JavaScript if-block: 
+					-> If the non-shortened 'URL' the user enters is a URL, then the server will redirect to its original URL 
+					-> If the non-shortened 'URL' isn't a URL (else), then the server will respond with a JSON (JavaScript) object 
+					-> The response (res) object stores a message, which is sent from the server back to the client 
+					-> This JSON object contains this error message, indicating that the entered 'URL' isn't a URL
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		-> This allows us to truncate the URLs by using mappings: 
+			-> These allow us to link each shortened URL with its longer version 
+			-> We start these mappings from 1 - so that when a user accesses a short URL, the microservice will redirect them back 
+          to its longer counterpart if it exists in the memory map 
+*/
 
 app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
