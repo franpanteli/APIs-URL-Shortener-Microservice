@@ -24,16 +24,83 @@
 
 require('dotenv').config();
 
-
-
-
+/*
+	Setting the const's for the project server.js file <- 1/7
+	-> We are importing the express module 
+	-> We are creating an Express application with Node.js dependencies 
+	-> require <- the JavaScript method used to import modules 
+		-> We are importing the Express module 
+		-> This stores its functions in the express variable 
+	-> We can use this to create instances of the Express application 
+		-> This is the application we will use to create middleware with etc
+*/
 
 const express = require('express');
+
+/*
+	Setting the const's for the project server.js file <- 2/7
+	-> Similar to the last import, the `require` method is used to import modules into JavaScript
+	-> We are importing the `body-parser` module 
+	-> This is middleware for parsing HTTP requests
+	-> This is what allows the server to take request (`req`) objects from the client <- it takes the data from 
+    those request bodies and makes them available under req.body 
+	-> This is for Express applications -> with data that would normally be sent as a JSON (JavaScript) object 
+*/
+
 const bodyParser = require('body-parser');
+
+/*
+	Setting the const's for the project server.js file <- 3/7
+	-> Importing the cors module 
+	-> This module contains middleware functions which we use to make communication between the client and the server 
+    secure 
+	-> Webpages can only make requests to domains other than the one served from the original webpage 
+	-> This is the module we use to place restrictions over which domains that requests can be made to 
+	-> We are trying to avoid requests being made to insecure domains 
+*/
+
 const cors = require('cors');
+
+/*
+	Setting the const's for the project server.js file <- 4/7
+	-> Importing the dns module (dns is a Node.js module)
+	-> This stands for Domain Name System (lookup)
+	-> We run these lookups to validate URLs and allow connectivity 
+*/
+
 const dns = require('dns');
+
+/*
+	Setting the const's for the project server.js file <- 5/7
+	-> This line imports the url module for Node.js 
+	-> This allows us to parse URLs <- since this entire application is a URL shortener microservice
+*/
+
 const urlParse = require('url');
+
+/*
+	Setting the const's for the project server.js file <- 6/7
+	-> The entire Express module was the first constant which we imported into this JavaScript file 
+	-> This line creates an instance of an Express application called `app`
+	-> This is done with the express() function 
+*/
+
 const app = express();
+
+/*
+	Setting the const's for the project server.js file <- 7/7
+	-> We are storing the value of the port which we want the application to listen to 
+	-> process.env <- this is telling the file to look into the environment variables file, because the port number 
+    can be considered sensitive information 
+	-> PORT is the name of the variable in that file 
+	-> The pipe symbol || is telling the server to otherwise set the value of the port variable equal to 8080
+	-> If there is no environment variable file to look into for the value of this variable, then use this number 
+    for it instead 
+	-> We are telling the Express application which port to listen to 
+		-> The application will otherwise use the environment variables as its default values 
+		-> We are telling the application which port to use, and providing it with options so it can do so more flexibilly  
+*/
+
 const port = process.env.PORT || 8080;
 
 
