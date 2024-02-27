@@ -103,11 +103,74 @@ const app = express();
 
 const port = process.env.PORT || 8080;
 
+/*
+	Uses of the app.use method in the project:
+		-> `app` is the variable which stores the instance of the Express application for this project
+		-> We are adding middleware into this application in each of these use cases -> the middleware is just different 
+			-> We are using CORS middleware for secure communications 
+			-> We are ensuring that the server can handle request objects which are in JSON syntax (JavaScript objects)
+			-> We are making sure that we serve static files in the server public directory 
+		-> These middleware functions are executed sequentially on each request the client makes 
+
+		Cors:
+			-> The first use of the .use method is for CORS middleware functions
+			-> This imports the cors middleware into the Express `app` application 
+			-> This allows the server to handle cross-origin requests <- we are limiting the number of domains which requests 
+          can be made to
+			-> cors was the name of the variable which stored this middleware -> we are telling the code that we want to use 
+          the functions stored in the cors module for the `app` application 
+
+		Body parser:
+			-> The app.use JavaScript code tells the application, "we are going to use this middleware" <- everything inside 
+          the argument of that function is telling it which middleware to use 
+				-> In this use case it's the body parser middleware 
+			-> This middleware parses URL-encoded data from incoming HTTP requests 
+				-> We are going to use this middleware to create the URL shortener 
+			-> The argument of this middleware
+				-> extended:false 
+				-> This configures the microservice to process URLs in a specific (non-encoded) syntax 
+				-> `app` is an Express application, so we can access this using req.body <- the body of the object which the client 
+            is requesting 
+
+		JSON middleware:
+			-> When the client makes HTTP requests in JSON format, the request objects are in that form -> which the server must 
+          parse 
+			-> The third use of the .use method here is for parsing request objects which are in JSON syntax (JavaScript objects)
+			-> This is another instance of body parser middleware (as was the previous one)
+			-> The server can then take payloads in JSON syntax and parse them 
+			-> They are then stored in `req.body` 
+
+		Static file serving:
+			-> The final use of the .use method in this block is for static file serving middleware functions 
+			-> The first argument in this use case sets the directory on the server where these static files are
+			-> The second argument tells the application which middleware to use on the files in that directory -> the express.static 
+          middleware 
+				-> It maps the file paths on the server into URLs 
+				-> We are defining the naming convention for this 
+*/
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/public', express.static(`${process.cwd()}/public`));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -130,6 +193,26 @@ app.get('/api/shorturl/:id', function (req, res) {
     res.json({ error: 'invalid id' });
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.post('/api/shorturl', function (req, res) {
   const { url } = req.body;
@@ -154,6 +237,21 @@ app.post('/api/shorturl', function (req, res) {
     }
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.listen(port, function () {
   console.log(`Listening on port ${port}.`);
