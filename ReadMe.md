@@ -14,4 +14,4 @@ The main API endpoint for this project is `/api/shorturl`. When a client makes a
 
 ## Dependencies
 
-This project has two dependencies. The first is [express](https://www.npmjs.com/package/express), which was used to build the web application in its [server.js file](https://github.com/franpanteli/APIs-Request-Header-Parser-Microservice-Project/blob/main/server.js). The second dependency is [cors](https://www.npmjs.com/package/cors), which was used to add in secure middleware.
+This project has two dependencies. The first is [express](https://www.npmjs.com/package/express), which was used to build the web application in its [server.js file](https://github.com/franpanteli/APIs-Request-Header-Parser-Microservice-Project/blob/main/server.js). The second dependency is [cors](https://www.npmjs.com/package/cors), which was used for security.
