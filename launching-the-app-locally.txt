@@ -25,4 +25,4 @@ Every other time:
 	-> cd into the repository 
 	-> node server.js
 	-> In the browser 
-		-> http://localhost:8080 <- this serves you the project index.html file 
+		-> http://localhost:8080 <- this serves the project index.html file 
