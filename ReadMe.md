@@ -4,7 +4,7 @@ This repository contains my independent problem-solving work, used to produce a 
 
 ## Microservice Installation & Usage
 
-My full notes on how to run the application locally are [here](https://github.com/franpanteli/APIs-URL-Shortener-Microservice-Project/blob/main/launching-the-app-locally.txt). First, clone this repository with `git clone https://github.com/franpanteli/APIs-URL-Shortener-Microservice-Project.git`.
+My [full notes on how to run the application locally are here](https://github.com/franpanteli/APIs-URL-Shortener-Microservice-Project/blob/main/launching-the-app-locally.txt). First, clone this repository with `git clone https://github.com/franpanteli/APIs-URL-Shortener-Microservice-Project.git`.
 
 
 
