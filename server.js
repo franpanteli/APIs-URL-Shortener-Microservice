@@ -219,159 +219,159 @@ app.get('/api/shorturl/:id', function (req, res) {
 });
 
 /*
-	This code handles HTTP POST requests:
-		-> `app` <- this is the name of the variable which stores the instance of the Express application 
-		-> .post <- this method is used to handle HTTP POST requests made to Express applications, et al
+    This code handles HTTP POST requests:
+        -> `app` <- this is the name of the variable which stores the instance of the Express application 
+        -> .post <- this method is used to handle HTTP POST requests made to Express applications, et al
 
-	Arguments:
-		-> The first argument in this is the path on the server which the request is made to, by the client 
-			-> This is an 'endpoint' 
-		-> The second argument of this route handler is its callback function: 
-			-> This is the function which the server runs to produce its response object
-			-> This is defined in the block of code inside the callback function 
-			-> The arguments of this function are the `res` (response) and `req` (request) objects 
+    Arguments:
+        -> The first argument in this is the path on the server to which the request is made, by the client 
+            -> This is an 'endpoint' 
+        -> The second argument of this route handler is its callback function: 
+            -> This is the function which the server runs to produce its response object
+            -> This is defined in the block of code inside the callback function 
+            -> The arguments of this function are the `res` (response) and `req` (request) objects 
 
-	The callback function:
-		-> This is the function which is the second argument in the block of code
-			-> This is defined in its main body 
+    The callback function:
+        -> This is the function which is the second argument in the block of code
+            -> This is defined in its main body 
 
-	Extracting the URL from the request object:
-		-> The client sends a request object (`req`) to the server
-		-> The previously defined middleware ensures that if this is in the incorrect syntax, an error message will be displayed
-		-> When the client makes a request to the server, they are sending a request object to them, which is a JSON object that 
-			should contain a URL 
-		-> The first constant that we are defining in this callback function extracts the URL which the client entered into this 
-			request object
-		-> We are doing this on the server side, once that object has reached the server
-		-> req.body is the content of that file, and `url` is a property which we are assuming it has   
-		-> This technique is called destructuring <- extracting the URL from the request object, which is in the form of a JSON 
-			object 
+    Extracting the URL from the request object:
+        -> The client sends a request object (`req`) to the server
+        -> The previously defined middleware ensures that if this is in the incorrect syntax, an error message will be displayed
+        -> When the client makes a request to the server, they are sending a request object to them, which is a JSON object that 
+            should contain a URL 
+        -> The first constant that we are defining in this callback function extracts the URL which the client entered into this 
+            request object
+        -> We are doing this on the server side, once that object has reached the server
+        -> req.body is the content of that file, and `url` is a property which we are assuming it has   
+        -> This technique is called destructuring <- extracting the URL from the request object, which is in the form of a JSON 
+            object 
 
-	  Is the URL valid, or is it not?
-		The if block in the callback function: 
-			-> The server has extracted the URL that the client entered 
-			-> We have taken the request object and extracted the URL from that (JSON, JavaScript) object 
-			-> That is stored in a variable - from the previous constant 	
-			-> This if block checks that this URL is valid 
-			-> The previous middleware functions were checking that it was in the syntax of a URL -> and entering an error message 
-				if it wasn't 	
-			-> We know that what the user has entered in this case follows the syntax of a URL (because it reached this block of 
-				code)
-			-> But we don't know that the URL they have entered is real (valid, live, hosted) 
-			-> We are looking it up using a method in the dns module called .lookup 
-			-> The argument this function takes:
-				-> The first argument this function takes is the host name of that URL 
-				-> This is the host name of the URL which we previously extracted (that the client entered in the request object)
-				-> The second argument which the block of code takes is a callback function 
-				-> The callback function is what the code does, depending on the outcome of the executed method
-				-> The JavaScript if block which is embedded into this use of the .lookup method is an if block 
+      Is the URL valid, or is it not?
+        The if block in the callback function: 
+            -> The server has extracted the URL that the client entered 
+            -> We have taken the request object and extracted the URL from that (JSON, JavaScript) object 
+            -> That is stored in a variable - from the previous constant    
+            -> This if block checks that this URL is valid 
+            -> The previous middleware functions were checking that it was in the syntax of a URL -> and entering an error message 
+                if it wasn't    
+            -> We know that what the user has entered in this case follows the syntax of a URL (because it reached this block of 
+                code)
+            -> But we don't know that the URL they have entered is real (valid, live, hosted) 
+            -> We are looking it up using a method in the DNS module called .lookup 
+            -> The argument this function takes:
+                -> The first argument this function takes is the hostname of that URL 
+                -> This is the hostname of the URL which we previously extracted (that the client entered in the request object)
+                -> The second argument that the block of code takes is a callback function 
+                -> The callback function is what the code does, depending on the outcome of the executed method
+                -> The JavaScript if block which is embedded into this use of the .lookup method is an if block 
 
-		If the user has entered a valid URL:
-			-> Invalid is a word for, 'not being hosted' 
-			-> If what the user entered wasn't a URL at all, then the middleware from above would have given them an error message 
-			-> If we have gotten to this stage of the code without an error message, it means that they have entered something in the 
-				correct syntax of a URL 
-			-> We check here that this URL is 'valid' (hosted) 
-			-> The first section of the if block says, 'if it's not hosted because there is no valid ip, then do this'
-			-> In this case, we log an error message to the console (to the terminal where the server is listening to the port)
-			-> The server responds to the client who inputted the unhosted URL by sending them a response object 
-			-> That response object is a JSON (JavaScript) object - with this error message 
+        If the user has entered a valid URL:
+            -> Invalid is a word for, 'not being hosted' 
+            -> If what the user entered wasn't a URL at all, then the middleware from above would have given them an error message 
+            -> If we have gotten to this stage of the code without an error message, it means that they have entered something in the 
+                correct syntax of a URL 
+            -> We check here that this URL is 'valid' (hosted) 
+            -> The first section of the if block says, 'if it's not hosted because there is no valid ip, then do this'
+            -> In this case, we log an error message to the console (to the terminal where the server is listening to the port)
+            -> The server responds to the client who inputted the unhosted URL by sending them a response object 
+            -> That response object is a JSON (JavaScript) object - with this error message 
 
-		If the URL the user enters is valid: 
-			'Valid' means that the URL is actually hosted, not that what was entered does not take the syntax of a URL:
-				-> By 'valid', meaning 'hosted' 
-				-> The point that, in both cases where the URL is valid or is not valid, the URL it still takes the syntax of a URL -> 
-					just in one case it's hosted and in the other it's not 
-				-> By validation, we are talking about taking something which takes the syntax of a URL - and is actually hosted 
-				
-			This is the code that will be executed if the entered URL is in the correct syntax, and is valid (hosted):
-				-> If the entered code was actually in the syntax of a URL, then it would have reached this entire block of code <- otherwise, 
-					it would have been taken out by the middleware above
-				-> If the entered URL was hosted, then it will have reached the else block under the JavaScript for its dns lookup 
-				-> In this case, the client has sent the server a 'URL' which takes the syntax of a URL, and which is hosted 
-				-> The question is, what does the server do if the client enters a 'URL' which is in the syntax of a URL, and which is valid 
-					/ hosted?
-				-> The project is for a URL shortener microservice, and this block of code is for that case
-				-> If we give the server a valid URL, either it's seen it before - or it hasn't 
-				-> What it does, is it takes those longer URLs and maps them onto shorter URLs using keys which are stored in its mapping
-				-> So either it's seen this valid URL before, or it hasn't
-				-> If it's seen the valid URL before, we want to return back its key in the server's map 
-				-> If it hasn't seen the URL before, we want to add it to the microservice mappings and generate a key for it
+        If the URL the user enters is valid: 
+            'Valid' means that the URL is actually hosted, not that what was entered does not take the syntax of a URL:
+                -> By 'valid', meaning 'hosted' 
+                -> The point that, in both cases where the URL is valid or is not valid, the 'URL' still takes the syntax of a URL -> 
+                    just in one case it's hosted and in the other it's not 
+                -> By validation, we are talking about taking something which takes the syntax of a URL - and is actually hosted 
+                
+            This is the code that will be executed if the entered URL is in the correct syntax, and is valid (hosted):
+                -> If the entered code was actually in the syntax of a URL, then it would have reached this entire block of code <- otherwise, 
+                    it would have been taken out by the middleware above
+                -> If the entered URL was hosted, then it will have reached the else block under the JavaScript for its DNS lookup 
+                -> In this case, the client has sent the server a 'URL' which takes the syntax of a URL, and which is hosted 
+                -> The question is, what does the server do if the client enters a 'URL' which is in the syntax of a URL, and which is valid 
+                    / hosted?
+                -> The project is for a URL shortener microservice, and this block of code is for that case
+                -> If we give the server a valid URL, either it's seen it before - or it hasn't 
+                -> What it does, is it takes those longer URLs and maps them onto shorter URLs using keys which are stored in its mapping
+                -> So either it's seen this valid URL before, or it hasn't
+                -> If it's seen the valid URL before, we want to return back its key in the server's map 
+                -> If it hasn't seen the URL before, we want to add it to the microservice mappings and generate a key for it
  
-				Adding the valid URL to the microservice mappings:
-					This is the case where: 
-						a) The client has entered a 'URL', in the syntax of a URL
-						b) That URL is hosted (it's valid) and
-						c) The microservice hasn't seen it before
+                Adding the valid URL to the microservice mappings:
+                    This is the case where: 
+                        a) The client has entered a 'URL', in the syntax of a URL
+                        b) That URL is hosted (it's valid) and
+                        c) The microservice hasn't seen it before
 
-					-> In which case, we want to add the URL to the server's mapping 
-					-> This refers to the `if (!urlMappings.has(url))` if block 
-					-> We are saying, if `urlMappings` (the database of mappings which the server has) doesn't have (`!`) this URL which the 
-						client has entered, then execute this block of code
-						-> This is an example use of in-memory storage
-					-> The three lines in this block:
-						-> Set this URL equal to the URL counter for the keys in the map 
-						-> Link that URL with a key 
-						-> Increase the value of the counter which produced the key by a value of 1 (`urlCounter++`)
+                    -> In which case, we want to add the URL to the server's mapping 
+                    -> This refers to the `if (!urlMappings.has(url))` if block 
+                    -> We are saying, if `urlMappings` (the database of mappings which the server has) doesn't have (`!`) this URL which the 
+                        client has entered, then execute this block of code
+                        -> This is an example use of in-memory storage
+                    -> The three lines in this block:
+                        -> Set this URL equal to the URL counter for the keys in the map 
+                        -> Link that URL with a key 
+                        -> Increase the value of the counter which produced the key by a value of 1 (`urlCounter++`)
 
-				Looking up the URL in the microservice mapping:
-					This is the case where:
-						a) The user enters a 'URL', which takes the syntax of a URL
-						b) That URL is hosted (it's valid) and 
-						c) The microservice has seen it before 
-							-> This means there exists an entry in the microservice mapping which represents the URL  
+                Looking up the URL in the microservice mapping:
+                    This is the case where:
+                        a) The user enters a 'URL', which takes the syntax of a URL
+                        b) That URL is hosted (it's valid) and 
+                        c) The microservice has seen it before 
+                            -> This means there exists an entry in the microservice mapping which represents the URL  
 
-					-> The client has sent the URL to the server
-					-> The server has a series of mappings
-					-> We are converting this mapping into an array using the Array. method, on the server-side 
-					-> This is a 1xn array, and each of its elements are mappings for a unique URL
-					-> Each such mapping is a 1x2 vector, which [0] stores the index of that element in the mapping and [1] stores its URL 
-					-> We know that the client has entered a URL and that this is in the server's array of all potential mappings
-					-> This block of code looks up this mapping and returns back its index as a JSON (JavaScript) object 
+                    -> The client has sent the URL to the server
+                    -> The server has a series of mappings
+                    -> We are converting this mapping into an array using the Array. method, on the server-side 
+                    -> This is a 1xn array, and each of its elements are mappings for a unique URL
+                    -> Each such mapping is a 1x2 vector, which [0] stores the index of that element in the mapping and [1] stores its URL 
+                    -> We know that the client has entered a URL and that this is in the server's array of all potential mappings
+                    -> This block of code looks up this mapping and returns back its index as a JSON (JavaScript) object 
 
-					The first line: 
-						-> Takes the map and converts it into an array
-						-> Each element in that array is a 1x2 vector 
-						-> It finds the 1x2 vector in that array which matches the URL that the client entered 
-						-> We store this 1x2 object in the `entryResult` variable 
-						-> The first element in that variable is the index of the URL, and the second element is the URL 
-						-> The purpose of this is to extract the index of the element in the database which represents the URL the client 
-							entered
-							-> We are doing this since we know that in this case, that URL exists in the server's mapping 
+                    The first line: 
+                        -> Takes the map and converts it into an array
+                        -> Each element in that array is a 1x2 vector 
+                        -> It finds the 1x2 vector in that array which matches the URL that the client entered 
+                        -> We store this 1x2 object in the `entryResult` variable 
+                        -> The first element in that variable is the index of the URL, and the second element is the URL 
+                        -> The purpose of this is to extract the index of the element in the database which represents the URL the client 
+                            entered
+                            -> We are doing this since we know that in this case, that URL exists in the server's mapping 
 
-					The second line:
-						-> The server now has a 1x2 object, which 
-							a) Contains the key (index) of the URL which the client entered, and
-							b) Contains the URL itself which they entered 
-						-> The client sent the server a URL, now the server wants to send back a JSON (JavaScript) object with the index 
-							of that URL in its mapping - and the URL itself  
-						-> This line of code takes the 1x2 variable `entryResult` which stores this key (`[0]`) and URL (`[1]`) and packages 
-							it into a JSON (JavaScript) response (`res`) object, to send back to the client 
+                    The second line:
+                        -> The server now has a 1x2 object, which 
+                            a) Contains the key (index) of the URL which the client entered, and
+                            b) Contains the URL itself which they entered 
+                        -> The client sent the server a URL, now the server wants to send back a JSON (JavaScript) object with the index 
+                            of that URL in its mapping - and the URL itself  
+                        -> This line of code takes the 1x2 variable `entryResult` which stores this key (`[0]`) and URL (`[1]`) and packages 
+                            it into a JSON (JavaScript) response (`res`) object, to send back to the client 
 
-						-> We are saying:
-							-> If what the client enters takes the syntax of a URL
-							-> And if that URL is hosted ('valid')
-							-> And that URL exists in the server's database of all potential mappings from URLs to keys 
-							-> Then - send back the index of that URL in the server's mapping which represents it 
-							-> Return this back to the client as a JSON (JavaScript) object, containing the URL and its index (key) in the 
-								server's mapping
+                        -> We are saying:
+                            -> If what the client enters takes the syntax of a URL
+                            -> And if that URL is hosted ('valid')
+                            -> And that URL exists in the server's database of all potential mappings from URLs to keys 
+                            -> Then - send back the index of that URL in the server's mapping which represents it 
+                            -> Return this back to the client as a JSON (JavaScript) object, containing the URL and its index (key) in the 
+                                server's mapping
 
-	In this block of code, we define a route hander for HTTP POST requests <- this instructs the application what to do if the text in request 
-	bodies received by the application follows the syntax of a URL:
+    In this block of code, we define a route handler for HTTP POST requests <- this instructs the application what to do if the text in request 
+    bodies received by the application follow URL syntax:
 
-		Case #1 <- the URL the client entered isn't hosted:
-			-> We check that the URL the client entered is actually valid (hosted)
-			-> We do this by executing a lookup, using the `dns` module 
-			-> We then return an error message and execute a console log, saying that URL the client entered isn't valid   
+        Case #1 <- the URL the client entered isn't hosted:
+            -> We check that the URL the client entered is actually valid (hosted)
+            -> We do this by executing a lookup, using the `dns` module 
+            -> We then return an error message and execute a console log, saying that the URL the client entered isn't valid   
 
-		Case #2 <- the URL the client entered is valid (hosted), but the server hasn't seen it before: 
-			-> We add the URL to the server's mapping - since the server hasn't seen it before, and it is a valid URL
-			-> We do this by using a counter on the server-side, whose value increases by 1 each time the application receives a response object 
-				matching this case #2 criteria 
+        Case #2 <- the URL the client entered is valid (hosted), but the server hasn't seen it before: 
+            -> We add the URL to the server's mapping - since the server hasn't seen it before, and it is a valid URL
+            -> We do this by using a counter on the server side, whose value increases by 1 each time the application receives a response object 
+                matching this case #2 criteria 
 
-		Case #3 <- the URL the client entered is valid (hosted), and it exists in the server's URL-key map:
-			-> We instruct the server to return the URL back to the client, along with the index of its shortened version on the server's map 	
-			-> We generate this sever-side response in the form of a JSON (JavaScript) object 
+        Case #3 <- the URL the client entered is valid (hosted), and it exists in the server's URL-key map:
+            -> We instruct the server to return the URL back to the client, along with the index of its shortened version on the server's map   
+            -> We generate this server-side response in the form of a JSON (JavaScript) object 
 */
 
 app.post('/api/shorturl', function (req, res) {
@@ -397,20 +397,43 @@ app.post('/api/shorturl', function (req, res) {
   });
 });
 
+/*
+	Telling the application to listen to a port:
+		-> `app` is the name of the variable which stores this instance of the Express application
+		-> This project is intended to be run locally
+		-> This block of code uses the .listen method
+		-> This tells the server which port to listen to 
 
+		The arguments of this are:
+			The port number that the application will use: 
+				-> The value of this is stored in the `port` variable
+				-> The value of this was set at the beginning of this server.js file
+				-> Since this port number is sensitive information, this file imports its value from an external .env (environment) file 
+				-> If this file is non-existent, then we use pipe symbols (`||`) to set its value to 8080  
 
+			The callback function which we want to execute when the server starts listening to the port: 
+				-> We use the .log method here, to write a message in the terminal
+				-> This uses the `$` symbol, so that the user (running the project locally) knows which port the server is listening to 
+					-> This is called a template literal 
+					-> The server is listening to this port, for connections made to it by the client 
 
+	There are two stages when the client connects to the server: 
+		-> The client makes requests to the port, by accessing its associated URL  
+		-> The server can access that same port, by 'listening' to it 
+		-> When the client makes a request to the port via accessing its URL, a request object is sent to the server
+		-> The server then implements route handling and sends back an appropriate response object to the client, via the port 
 
+		For this exchange to happen:
+			-> The server must listen to the port <- this is what this section of code does, and we will know that the server is listening 
+				to the port once the console logs the message which is set here 
+			-> The client must access the port via a URL 
+			-> That URL is specific to the port 	
+			-> The client must make a request -> in this case, by accessing the microservice at that URL 
+			-> The server must have the correct middleware, depending on the contents of the request object 
 
-
-
-
-
-
-
-
-
-
+	-> We are telling the server to listen for connections made to that port 
+	-> The code earlier which set the port number also dictates which URL the client accesses the microservice from 
+*/
 
 app.listen(port, function () {
   console.log(`Listening on port ${port}.`);
